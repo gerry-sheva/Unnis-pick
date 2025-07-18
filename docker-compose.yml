@@ -1,0 +1,15 @@
+services:
+  unnis_pick:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - unnis_pick_volume:/var/lib/postgresql/data
+
+volumes:
+  unnis_pick_volume:
