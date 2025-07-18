@@ -10,20 +10,28 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 
 	"unnis_pick/internal/database"
+	"unnis_pick/internal/domain"
+	"unnis_pick/internal/service"
 )
 
 type Server struct {
-	port int
-
-	db database.Service
+	port           int
+	dbPool         database.Service
+	brandService   domain.BrandService
+	productService domain.ProductService
 }
 
 func NewServer() *http.Server {
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
-	NewServer := &Server{
-		port: port,
+	dbPool := database.New()
+	brandService := service.NewBrandService(dbPool.Queries())
+	productService := service.NewProductService(dbPool.Queries())
 
-		db: database.New(),
+	NewServer := &Server{
+		port:           port,
+		dbPool:         dbPool,
+		brandService:   brandService,
+		productService: productService,
 	}
 
 	// Declare Server config

@@ -23,11 +23,15 @@ type Service interface {
 	// Close terminates the database connection.
 	// It returns an error if the connection cannot be closed.
 	Close()
+
+	// Getters
+	DbPool() *pgxpool.Pool
+	Queries() *query.Queries
 }
 
 type service struct {
-	DbPool  *pgxpool.Pool
-	Queries *query.Queries
+	dbPool  *pgxpool.Pool
+	queries *query.Queries
 }
 
 var (
@@ -51,8 +55,8 @@ func New() Service {
 		log.Fatal(err)
 	}
 	dbInstance = &service{
-		DbPool:  dbpool,
-		Queries: query.New(dbpool),
+		dbPool:  dbpool,
+		queries: query.New(dbpool),
 	}
 	return dbInstance
 }
@@ -66,7 +70,7 @@ func (s *service) Health() map[string]string {
 	stats := make(map[string]string)
 
 	// Ping the database
-	err := s.DbPool.Ping(ctx)
+	err := s.dbPool.Ping(ctx)
 	if err != nil {
 		stats["status"] = "down"
 		stats["error"] = fmt.Sprintf("db down: %v", err)
@@ -79,7 +83,7 @@ func (s *service) Health() map[string]string {
 	stats["message"] = "It's healthy"
 
 	// Get database stats (like open connections, in use, idle, etc.)
-	dbStats := s.DbPool.Stat()
+	dbStats := s.dbPool.Stat()
 	stats["open_connections"] = strconv.Itoa(int(dbStats.TotalConns()))
 	stats["in_use"] = strconv.Itoa(int(dbStats.AcquireCount()))
 	stats["idle"] = strconv.Itoa(int(dbStats.IdleConns()))
@@ -114,5 +118,13 @@ func (s *service) Health() map[string]string {
 // If an error occurs while closing the connection, it returns the error.
 func (s *service) Close() {
 	log.Printf("Disconnected from database: %s", database)
-	s.DbPool.Close()
+	s.dbPool.Close()
+}
+
+func (s *service) DbPool() *pgxpool.Pool {
+	return s.dbPool
+}
+
+func (s *service) Queries() *query.Queries {
+	return s.queries
 }

@@ -8,8 +8,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${DB_PORT}:5432"
-    volumes:
-      - unnis_pick_volume:/var/lib/postgresql/data
+#     volumes:
+#       - unnis_pick_volume:/var/lib/postgresql/data
 
-volumes:
-  unnis_pick_volume:
+# volumes:
+#   unnis_pick_volume:
