@@ -64,3 +64,21 @@ func (h *ProductHandler) DeleteProduct(c echo.Context) error {
 	}
 	return c.NoContent(http.StatusNoContent)
 }
+
+func (h *ProductHandler) QueryProducts(c echo.Context) error {
+	filter := new(domain.ProductFilter)
+	if err := c.Bind(filter); err != nil {
+		return err
+	}
+	filter.SetDefault()
+	err := filter.Validate()
+	if err != nil {
+		return err
+	}
+	ctx := c.Request().Context()
+	res, err := h.productService.QueryProducts(ctx, filter)
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, res)
+}

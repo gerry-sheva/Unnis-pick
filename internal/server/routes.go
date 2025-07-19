@@ -30,6 +30,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	e.DELETE("/brands/:id", brandHandler.DeleteBrand)
 
 	e.POST("/products", productHandler.CreateProduct)
+	e.GET("/products", productHandler.QueryProducts)
 	e.GET("/products/:id", productHandler.GetProduct)
 	e.PUT("/products/:id", productHandler.UpdateProduct)
 	e.DELETE("/products/:id", productHandler.DeleteProduct)

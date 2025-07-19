@@ -1,6 +1,8 @@
 package mapper
 
 import (
+	"strconv"
+
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -12,5 +14,6 @@ func StringToUUID(id string) (uuid.UUID, error) {
 
 func Float64ToNumeric(value float64) (pgtype.Numeric, error) {
 	var numeric pgtype.Numeric
-	return numeric, numeric.Scan(value)
+	str := strconv.FormatFloat(value, 'f', -1, 64)
+	return numeric, numeric.Scan(str)
 }

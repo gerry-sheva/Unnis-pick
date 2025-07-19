@@ -2,55 +2,75 @@ package service
 
 import (
 	"context"
+	"log"
 	"unnis_pick/internal/database/mapper"
 	"unnis_pick/internal/database/query"
 	"unnis_pick/internal/domain"
+	"unnis_pick/internal/searchengine"
+
+	"github.com/elastic/go-elasticsearch/v9/typedapi/core/search"
 )
 
 type ProductService struct {
-	queries *query.Queries
+	queries       *query.Queries
+	searchService searchengine.Service
 }
 
-func NewProductService(queries *query.Queries) *ProductService {
+func NewProductService(queries *query.Queries, searchService searchengine.Service) *ProductService {
 	return &ProductService{
-		queries: queries,
+		queries:       queries,
+		searchService: searchService,
 	}
 }
 
 func (s *ProductService) CreateProduct(ctx context.Context, product *domain.Product) (*domain.Product, error) {
-	uuid, err := mapper.StringToUUID(product.BrandID)
+	brandId, err := mapper.StringToUUID(product.BrandID)
 	if err != nil {
 		return nil, err
 	}
 
 	price, err := mapper.Float64ToNumeric(product.Price)
 	if err != nil {
+		log.Println("this here")
 		return nil, err
 	}
 
 	params := query.CreateProductParams{
-		Name:    product.Name,
-		Price:   price,
-		Stock:   product.Stock,
-		BrandID: uuid,
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       price,
+		Stock:       product.Stock,
+		BrandID:     brandId,
 	}
 	dbModel, err := s.queries.CreateProduct(ctx, params)
 	if err != nil {
 		return nil, err
 	}
+
 	product, err = mapper.DBModelToProduct(&dbModel)
 	if err != nil {
 		return nil, err
 	}
-	return product, nil
-}
 
-func (s *ProductService) GetProduct(ctx context.Context, productID string) (*domain.Product, error) {
-	uuid, err := mapper.StringToUUID(productID)
+	brand, err := s.queries.GetBrand(ctx, brandId)
 	if err != nil {
 		return nil, err
 	}
-	dbModel, err := s.queries.GetProduct(ctx, uuid)
+
+	err = s.searchService.IndexProduct(product, brand.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	return product, nil
+}
+
+func (s *ProductService) GetProduct(ctx context.Context, id string) (*domain.Product, error) {
+	productId, err := mapper.StringToUUID(id)
+	if err != nil {
+		return nil, err
+	}
+	dbModel, err := s.queries.GetProduct(ctx, productId)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +81,8 @@ func (s *ProductService) GetProduct(ctx context.Context, productID string) (*dom
 	return product, nil
 }
 
-func (s *ProductService) UpdateProduct(ctx context.Context, productId string, product *domain.Product) (*domain.Product, error) {
-	uuid, err := mapper.StringToUUID(productId)
+func (s *ProductService) UpdateProduct(ctx context.Context, id string, product *domain.Product) (*domain.Product, error) {
+	productId, err := mapper.StringToUUID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -78,11 +98,12 @@ func (s *ProductService) UpdateProduct(ctx context.Context, productId string, pr
 	}
 
 	params := query.UpdateProductParams{
-		ProductID: uuid,
-		Name:      product.Name,
-		Price:     price,
-		Stock:     product.Stock,
-		BrandID:   brandId,
+		ProductID:   productId,
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       price,
+		Stock:       product.Stock,
+		BrandID:     brandId,
 	}
 	dbModel, err := s.queries.UpdateProduct(ctx, params)
 	if err != nil {
@@ -92,17 +113,36 @@ func (s *ProductService) UpdateProduct(ctx context.Context, productId string, pr
 	if err != nil {
 		return nil, err
 	}
+
+	brand, err := s.queries.GetBrand(ctx, brandId)
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.searchService.IndexProduct(product, brand.Name)
+	if err != nil {
+		return nil, err
+	}
 	return product, nil
 }
 
-func (s *ProductService) DeleteProduct(ctx context.Context, productID string) error {
-	uuid, err := mapper.StringToUUID(productID)
+func (s *ProductService) DeleteProduct(ctx context.Context, id string) error {
+	productId, err := mapper.StringToUUID(id)
 	if err != nil {
 		return err
 	}
-	err = s.queries.DeleteProduct(ctx, uuid)
+	err = s.queries.DeleteProduct(ctx, productId)
 	if err != nil {
 		return err
 	}
+
+	s.searchService.DeleteProduct(id)
+
 	return nil
+}
+
+func (s *ProductService) QueryProducts(ctx context.Context, filter *domain.ProductFilter) (*search.Response, error) {
+	res := s.searchService.QueryProducts(filter)
+
+	return res, nil
 }

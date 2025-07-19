@@ -13,21 +13,23 @@ import (
 )
 
 const createProduct = `-- name: CreateProduct :one
-insert into product (name, price, stock, brand_id)
-values ($1, $2, $3, $4)
+insert into product (name, description, price, stock, brand_id)
+values ($1, $2, $3, $4, $5)
 returning product_id, name, description, price, stock, created_at, updated_at, deleted_at, brand_id
 `
 
 type CreateProductParams struct {
-	Name    string
-	Price   pgtype.Numeric
-	Stock   int32
-	BrandID uuid.UUID
+	Name        string
+	Description string
+	Price       pgtype.Numeric
+	Stock       int32
+	BrandID     uuid.UUID
 }
 
 func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error) {
 	row := q.db.QueryRow(ctx, createProduct,
 		arg.Name,
+		arg.Description,
 		arg.Price,
 		arg.Stock,
 		arg.BrandID,
@@ -83,23 +85,25 @@ func (q *Queries) GetProduct(ctx context.Context, productID uuid.UUID) (Product,
 
 const updateProduct = `-- name: UpdateProduct :one
 update product
-set name = $2, price = $3, stock = $4, brand_id = $5
+set name = $2, description = $3, price = $4, stock = $5, brand_id = $6
 where product_id = $1
 returning product_id, name, description, price, stock, created_at, updated_at, deleted_at, brand_id
 `
 
 type UpdateProductParams struct {
-	ProductID uuid.UUID
-	Name      string
-	Price     pgtype.Numeric
-	Stock     int32
-	BrandID   uuid.UUID
+	ProductID   uuid.UUID
+	Name        string
+	Description string
+	Price       pgtype.Numeric
+	Stock       int32
+	BrandID     uuid.UUID
 }
 
 func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (Product, error) {
 	row := q.db.QueryRow(ctx, updateProduct,
 		arg.ProductID,
 		arg.Name,
+		arg.Description,
 		arg.Price,
 		arg.Stock,
 		arg.BrandID,

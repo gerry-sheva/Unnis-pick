@@ -11,12 +11,14 @@ func DBModelToProduct(dbModel *query.Product) (*domain.Product, error) {
 		return nil, err
 	}
 	return &domain.Product{
-		ProductID: dbModel.ProductID.String(),
-		Name:      dbModel.Name,
-		Price:     price.Float64,
-		Stock:     int32(dbModel.Stock),
-		CreatedAt: dbModel.CreatedAt.Time,
-		UpdatedAt: &dbModel.UpdatedAt.Time,
-		DeletedAt: &dbModel.DeletedAt.Time,
+		ProductID:   dbModel.ProductID.String(),
+		Name:        dbModel.Name,
+		Description: dbModel.Description,
+		Price:       price.Float64,
+		Stock:       int32(dbModel.Stock),
+		CreatedAt:   dbModel.CreatedAt.Time,
+		UpdatedAt:   &dbModel.UpdatedAt.Time,
+		DeletedAt:   &dbModel.DeletedAt.Time,
+		BrandID:     dbModel.BrandID.String(),
 	}, nil
 }

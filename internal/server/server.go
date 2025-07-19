@@ -11,6 +11,7 @@ import (
 
 	"unnis_pick/internal/database"
 	"unnis_pick/internal/domain"
+	"unnis_pick/internal/searchengine"
 	"unnis_pick/internal/service"
 )
 
@@ -19,19 +20,23 @@ type Server struct {
 	dbPool         database.Service
 	brandService   domain.BrandService
 	productService domain.ProductService
+	searchService  searchengine.Service
 }
 
 func NewServer() *http.Server {
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	dbPool := database.New()
+	searchService := searchengine.New()
+	searchService.SetupProductsIndex()
 	brandService := service.NewBrandService(dbPool.Queries())
-	productService := service.NewProductService(dbPool.Queries())
+	productService := service.NewProductService(dbPool.Queries(), searchService)
 
 	NewServer := &Server{
 		port:           port,
 		dbPool:         dbPool,
 		brandService:   brandService,
 		productService: productService,
+		searchService:  searchService,
 	}
 
 	// Declare Server config

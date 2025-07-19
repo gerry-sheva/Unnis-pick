@@ -6,7 +6,7 @@ import (
 )
 
 type Brand struct {
-	BrandID   string     `json:"brand_id"`
+	BrandID   string     `json:"id"`
 	Name      string     `json:"name"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
@@ -15,7 +15,7 @@ type Brand struct {
 
 type BrandService interface {
 	CreateBrand(ctx context.Context, brand *Brand) (*Brand, error)
-	GetBrand(ctx context.Context, brandID string) (*Brand, error)
-	UpdateBrand(ctx context.Context, brandId string, brand *Brand) (*Brand, error)
-	DeleteBrand(ctx context.Context, brandID string) error
+	GetBrand(ctx context.Context, id string) (*Brand, error)
+	UpdateBrand(ctx context.Context, id string, brand *Brand) (*Brand, error)
+	DeleteBrand(ctx context.Context, id string) error
 }

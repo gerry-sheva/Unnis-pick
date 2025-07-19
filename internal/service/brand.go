@@ -29,13 +29,13 @@ func (s *BrandService) CreateBrand(ctx context.Context, brand *domain.Brand) (*d
 	return brand, nil
 }
 
-func (s *BrandService) GetBrand(ctx context.Context, brandID string) (*domain.Brand, error) {
-	uuid, err := mapper.StringToUUID(brandID)
+func (s *BrandService) GetBrand(ctx context.Context, id string) (*domain.Brand, error) {
+	brandId, err := mapper.StringToUUID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	dbBrand, err := s.queries.GetBrand(ctx, uuid)
+	dbBrand, err := s.queries.GetBrand(ctx, brandId)
 	if err != nil {
 		return nil, err
 	}
@@ -46,14 +46,14 @@ func (s *BrandService) GetBrand(ctx context.Context, brandID string) (*domain.Br
 	return brand, nil
 }
 
-func (s *BrandService) UpdateBrand(ctx context.Context, brandId string, brand *domain.Brand) (*domain.Brand, error) {
-	uuid, err := mapper.StringToUUID(brandId)
+func (s *BrandService) UpdateBrand(ctx context.Context, id string, brand *domain.Brand) (*domain.Brand, error) {
+	brandId, err := mapper.StringToUUID(id)
 	if err != nil {
 		return nil, err
 	}
 
 	params := query.UpdateBrandParams{
-		BrandID: uuid,
+		BrandID: brandId,
 		Name:    brand.Name,
 	}
 	dbBrand, err := s.queries.UpdateBrand(ctx, params)
@@ -69,13 +69,13 @@ func (s *BrandService) UpdateBrand(ctx context.Context, brandId string, brand *d
 	return brand, nil
 }
 
-func (s *BrandService) DeleteBrand(ctx context.Context, brandID string) error {
-	uuid, err := mapper.StringToUUID(brandID)
+func (s *BrandService) DeleteBrand(ctx context.Context, id string) error {
+	brandId, err := mapper.StringToUUID(id)
 	if err != nil {
 		return err
 	}
 
-	err = s.queries.DeleteBrand(ctx, uuid)
+	err = s.queries.DeleteBrand(ctx, brandId)
 	if err != nil {
 		return err
 	}
