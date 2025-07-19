@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"unnis_pick/internal/database/mapper"
 	"unnis_pick/internal/database/query"
 	"unnis_pick/internal/domain"
@@ -73,6 +74,15 @@ func (s *BrandService) DeleteBrand(ctx context.Context, id string) error {
 	brandId, err := mapper.StringToUUID(id)
 	if err != nil {
 		return err
+	}
+
+	exists, err := s.queries.IsBrandUsed(ctx, brandId)
+	if err != nil {
+		return err
+	}
+
+	if exists {
+		return errors.New("Brand is currently being used!")
 	}
 
 	err = s.queries.DeleteBrand(ctx, brandId)

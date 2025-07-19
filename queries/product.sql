@@ -18,3 +18,10 @@ returning *;
 update product
 set deleted_at = now()
 where product_id = $1;
+
+-- name: IsBrandUsed :one
+select exists(
+    select 1 from product
+    where brand_id = $1
+    and deleted_at is null
+);

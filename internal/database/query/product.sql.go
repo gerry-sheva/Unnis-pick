@@ -83,6 +83,21 @@ func (q *Queries) GetProduct(ctx context.Context, productID uuid.UUID) (Product,
 	return i, err
 }
 
+const isBrandUsed = `-- name: IsBrandUsed :one
+select exists(
+    select 1 from product
+    where brand_id = $1
+    and deleted_at is null
+)
+`
+
+func (q *Queries) IsBrandUsed(ctx context.Context, brandID uuid.UUID) (bool, error) {
+	row := q.db.QueryRow(ctx, isBrandUsed, brandID)
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
+}
+
 const updateProduct = `-- name: UpdateProduct :one
 update product
 set name = $2, description = $3, price = $4, stock = $5, brand_id = $6
