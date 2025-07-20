@@ -2,10 +2,9 @@ package domain
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"time"
-
-	"github.com/elastic/go-elasticsearch/v9/typedapi/core/search"
 )
 
 type Product struct {
@@ -25,7 +24,7 @@ type ProductService interface {
 	GetProduct(ctx context.Context, id string) (*Product, error)
 	UpdateProduct(ctx context.Context, id string, product *Product) (*Product, error)
 	DeleteProduct(ctx context.Context, id string) error
-	QueryProducts(ctx context.Context, filter *ProductFilter) (*search.Response, error)
+	QueryProducts(ctx context.Context, filter *ProductFilter) (*ProductQueryResponse, error)
 }
 
 type ProductFilter struct {
@@ -35,6 +34,20 @@ type ProductFilter struct {
 	PriceMax   float64 `query:"price_max"`
 	PageSize   int     `query:"size"`
 	PageNumber int     `query:"number"`
+}
+
+type ProductQuery struct {
+	ProductID   string  `json:"product_id"`
+	Brand       string  `json:"brand"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Stock       int32   `json:"stock"`
+}
+
+type ProductQueryResponse struct {
+	Total int64          `json:"total"`
+	Items []ProductQuery `json:"items"`
 }
 
 // SetDefault sets default values for PageSize and PageNumber fields
@@ -56,5 +69,30 @@ func (f *ProductFilter) Validate() error {
 	if f.PriceMin > f.PriceMax {
 		return errors.New("invalid price range")
 	}
+	return nil
+}
+
+func (r *ProductQueryResponse) UnmarshalJSON(data []byte) error {
+	var raw struct {
+		Hits struct {
+			Total struct {
+				Value int64 `json:"value"`
+			} `json:"total"`
+			Hits []struct {
+				Source ProductQuery `json:"_source"`
+			} `json:"hits"`
+		} `json:"hits"`
+	}
+
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+
+	r.Total = raw.Hits.Total.Value
+	r.Items = make([]ProductQuery, len(raw.Hits.Hits))
+	for i, hit := range raw.Hits.Hits {
+		r.Items[i] = hit.Source
+	}
+
 	return nil
 }

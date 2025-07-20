@@ -9,6 +9,7 @@ import (
 
 	_ "github.com/joho/godotenv/autoload"
 
+	"unnis_pick/internal/cache"
 	"unnis_pick/internal/database"
 	"unnis_pick/internal/domain"
 	"unnis_pick/internal/searchengine"
@@ -28,8 +29,10 @@ func NewServer() *http.Server {
 	dbPool := database.New()
 	searchService := searchengine.New()
 	searchService.SetupProductsIndex()
+	cacheService := cache.New()
+
 	brandService := service.NewBrandService(dbPool.Queries())
-	productService := service.NewProductService(dbPool.Queries(), searchService)
+	productService := service.NewProductService(dbPool.Queries(), searchService, cacheService)
 
 	NewServer := &Server{
 		port:           port,
