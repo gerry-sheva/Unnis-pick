@@ -1,0 +1,637 @@
+{
+	"info": {
+		"_postman_id": "80db3aca-5775-486a-9704-d52a09bb9ccb",
+		"name": "Unnis Pick",
+		"description": "Unnis Pick is an ecommerce application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26518653"
+	},
+	"item": [
+		{
+			"name": "Brands",
+			"item": [
+				{
+					"name": "New Brand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Torriden\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/brands",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"brands"
+							]
+						},
+						"description": "Create a new brand"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Innisfree\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/brands",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"brands"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Brand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/brands/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"brands",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Brand Id"
+								}
+							]
+						},
+						"description": "Get a brand based on their id"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/brands/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"brands",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "508f8c0e-6583-11f0-b2b5-23fbeb044c99",
+											"description": "Brand Id"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Brand",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/brands/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"brands",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Brand Id"
+								}
+							]
+						},
+						"description": "Update brand data based on their id"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/brands/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"brands",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "508f8c0e-6583-11f0-b2b5-23fbeb044c99",
+											"description": "Brand Id"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Brand",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/brands/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"brands",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Brand Id"
+								}
+							]
+						},
+						"description": "Delete brand based on their id"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/brands/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"brands",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "94e344ae-6583-11f0-b2b5-3fd8eca12b0f",
+											"description": "Brand Id"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Endpoints for Brand management"
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create Products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"brand_id\": \"94e344ae-6583-11f0-b2b5-3fd8eca12b0f\",\n    \"name\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Cream 80ml\",\n    \"description\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Cream 80ml\",\n    \"price\": 300000,\n    \"stock\": 500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"brand_id\": \"94e344ae-6583-11f0-b2b5-3fd8eca12b0f\",\n    \"name\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Cream 80ml\",\n    \"description\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Cream 80ml\",\n    \"price\": 300000,\n    \"stock\": 500\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/products",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Query Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/products?name=&brand&price_min=&price_max=&size&number",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "Product name"
+								},
+								{
+									"key": "brand",
+									"value": null,
+									"description": "Brand name"
+								},
+								{
+									"key": "price_min",
+									"value": "",
+									"description": "Minimum price"
+								},
+								{
+									"key": "price_max",
+									"value": "",
+									"description": "Maximum price"
+								},
+								{
+									"key": "size",
+									"value": null,
+									"description": "Size per page (default to 10)"
+								},
+								{
+									"key": "number",
+									"value": null,
+									"description": "Page number (default to 0)"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/products?name=Dive&brand&price_min=&price_max=&size&number",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Dive",
+											"description": "Product name"
+										},
+										{
+											"key": "brand",
+											"value": null,
+											"description": "Brand name"
+										},
+										{
+											"key": "price_min",
+											"value": "",
+											"description": "Minimum price"
+										},
+										{
+											"key": "price_max",
+											"value": "",
+											"description": "Maximum price"
+										},
+										{
+											"key": "size",
+											"value": null,
+											"description": "Size per page (default to 10)"
+										},
+										{
+											"key": "number",
+											"value": null,
+											"description": "Page number (default to 0)"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Products",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"ad148a4d-c424-4e89-9173-95829adca7ee\",\n    \"name\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Toner 300ml Updated\",\n    \"description\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Toner 300ml Updated\",\n    \"price\": 320000,\n    \"stock\": 500,\n    \"created_at\": \"2025-07-20T23:11:25.040585+07:00\",\n    \"updated_at\": \"0001-01-01T00:00:00Z\",\n    \"deleted_at\": \"0001-01-01T00:00:00Z\",\n    \"brand_id\": \"94e344ae-6583-11f0-b2b5-3fd8eca12b0f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/products/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ad148a4d-c424-4e89-9173-95829adca7ee",
+									"description": "Product Id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"ad148a4d-c424-4e89-9173-95829adca7ee\",\n    \"name\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Toner 300ml Updated\",\n    \"description\": \"Torriden DIVE IN Low Molecular Hyaluronic Acid Toner 300ml Updated\",\n    \"price\": 320000,\n    \"stock\": 500,\n    \"created_at\": \"2025-07-20T23:11:25.040585+07:00\",\n    \"updated_at\": \"0001-01-01T00:00:00Z\",\n    \"deleted_at\": \"0001-01-01T00:00:00Z\",\n    \"brand_id\": \"94e344ae-6583-11f0-b2b5-3fd8eca12b0f\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/products/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "ad148a4d-c424-4e89-9173-95829adca7ee",
+											"description": "Product Id"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/products/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ad148a4d-c424-4e89-9173-95829adca7ee",
+									"description": "Product Id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/products/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "ad148a4d-c424-4e89-9173-95829adca7ee",
+											"description": "Product Id"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/products/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a3ea7e5c-2d6d-4bc7-9834-cc58662f8561",
+									"description": "Product Id"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/products/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a3ea7e5c-2d6d-4bc7-9834-cc58662f8561",
+											"description": "Product Id"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Endpoints for product management"
+		}
+	]
+}
