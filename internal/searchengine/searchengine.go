@@ -103,7 +103,6 @@ func (s *service) QueryProducts(filter *domain.ProductFilter) *search.Response {
 			rangeQuery.Gte = &min
 		}
 		if filter.PriceMax > 0 {
-			log.Println(filter.PriceMax)
 			max := types.Float64(filter.PriceMax)
 			rangeQuery.Lte = &max
 		}

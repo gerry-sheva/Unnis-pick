@@ -3,7 +3,6 @@ package cache
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -30,7 +29,6 @@ func New() Service {
 }
 
 func (s *service) Set(ctx context.Context, key string, value any, expiration time.Duration) error {
-	log.Println("Hello?")
 	return s.client.Set(ctx, key, value, expiration).Err()
 }
 

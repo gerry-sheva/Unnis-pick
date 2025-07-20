@@ -43,7 +43,6 @@ func (s *ProductService) CreateProduct(ctx context.Context, product *domain.Prod
 
 	price, err := mapper.Float64ToNumeric(product.Price)
 	if err != nil {
-		log.Println("this here")
 		return nil, err
 	}
 
