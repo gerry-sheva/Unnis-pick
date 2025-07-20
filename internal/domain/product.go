@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var maxPrice = 100_000_000.0
+
 type Product struct {
 	ProductID   string     `json:"id"`
 	Name        string     `json:"name"`
@@ -59,6 +61,9 @@ func (f *ProductFilter) SetDefault() {
 	}
 	if f.PageNumber == 0 {
 		f.PageNumber = 0
+	}
+	if f.PriceMin != 0 && f.PriceMax == 0 {
+		f.PriceMax = maxPrice
 	}
 }
 
