@@ -3,10 +3,12 @@
 # Build the application
 all: build test
 
+unnis: docker-run migrate watch
+
 build:
 	@echo "Building..."
-	
-	
+
+
 	@go build -o main cmd/api/main.go
 
 # Run the application
@@ -14,12 +16,20 @@ run:
 	@go run cmd/api/main.go
 # Create DB container
 docker-run:
-	@if docker compose up --build 2>/dev/null; then \
+	@if docker compose up --build -d 2>/dev/null; then \
 		: ; \
 	else \
 		echo "Falling back to Docker Compose V1"; \
 		docker-compose up --build; \
 	fi
+	@echo "Waiting for Docker container to be ready..."
+	sleep 5
+	@echo "Docker container should be ready."
+
+# migrate DB with goose
+migrate:
+	@echo "Migrating..."
+	goose up
 
 # Shutdown DB container
 docker-down:
